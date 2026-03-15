@@ -1,8 +1,11 @@
 [phases.setup]
-nixPkgs = ["python3", "python311Packages.pip"]
+nixPkgs = ["python3"]
 
 [phases.install]
-cmds = ["python3 -m pip install --break-system-packages -r requirements.txt"]
+cmds = [
+  "python3 -m ensurepip --upgrade",
+  "python3 -m pip install --break-system-packages -r requirements.txt"
+]
 
 [start]
 cmd = "python3 kraken_telegram_bot.py"
