@@ -1,4 +1,0 @@
-ccxt
-anthropic
-pandas
-pandas-ta==0.4.71b0
