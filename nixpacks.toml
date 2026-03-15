@@ -6,10 +6,3 @@ cmds = ["python3 -m pip install --break-system-packages -r requirements.txt"]
 
 [start]
 cmd = "python3 kraken_telegram_bot.py"
-```
-
----
-
-### `Procfile`
-```
-worker: python3 kraken_telegram_bot.py
