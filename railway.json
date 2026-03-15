@@ -4,7 +4,7 @@
     "builder": "NIXPACKS"
   },
   "deploy": {
-    "startCommand": "python3 kraken_telegram_bot.py",
+    "startCommand": "/opt/venv/bin/python3 kraken_telegram_bot.py",
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 5
   }
