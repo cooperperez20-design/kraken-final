@@ -69,16 +69,16 @@ COINS = [
 # ── TIMEFRAMES ───────────────────────────────────────────────────
 TF_DAILY  = "1d"
 TF_4HOUR  = "4h"
-TF_SIGNAL = "1h"
+TF_SIGNAL = "4h"
 
-CHECK_EVERY_MINUTES = 30
+CHECK_EVERY_MINUTES = 120
 
 # ── POSITION SIZING ──────────────────────────────────────────────
 TRADE_SIZE_PCT = 0.90
 
 # ── EXIT RULES (adjustable via Telegram) ─────────────────────────
-TAKE_PROFIT_PCT = 0.04
-STOP_LOSS_PCT   = 0.02
+TAKE_PROFIT_PCT = 0.10
+STOP_LOSS_PCT   = 0.04
 
 # ── DCA SETTINGS ─────────────────────────────────────────────────
 # DCA = Dollar Cost Averaging
@@ -88,22 +88,22 @@ STOP_LOSS_PCT   = 0.02
 # This lowers your average entry price and increases profit on recovery.
 
 DCA_ENABLED    = True    # Turn DCA on or off
-DCA_DROP_PCT   = 0.03    # Buy more when price drops 3% from last buy
+DCA_DROP_PCT   = 0.05    # Buy more when price drops 3% from last buy
 DCA_ORDER_SIZE = 0.10    # Each DCA buy uses 10% of starting balance ($10)
 DCA_MAX_ORDERS = 3       # Maximum 3 DCA buys per position (max $30 extra)
 
 # ── FEAR & GREED FILTER (adjustable via Telegram) ────────────────
-FNG_MIN_TO_BUY = 40
+FNG_MIN_TO_BUY = 35
 
 # ── SIGNAL DETECTION THRESHOLDS ──────────────────────────────────
-RSI_BUY_MIN  = 40
-RSI_BUY_MAX  = 62
-RSI_SELL_MIN = 68
-RSI_SELL_MAX = 35
+RSI_BUY_MIN  = 35
+RSI_BUY_MAX  = 60
+RSI_SELL_MIN = 75
+RSI_SELL_MAX = 28
 
 # ── DAILY SAFETY LIMITS ──────────────────────────────────────────
 DAILY_LOSS_LIMIT_PCT = 0.15
-MAX_TRADES_PER_COIN  = 3
+MAX_TRADES_PER_COIN  = 2
 
 # ── SANDBOX ──────────────────────────────────────────────────────
 SANDBOX = False
@@ -495,12 +495,12 @@ def get_data(exchange, coin, timeframe, limit=100):
         df  = pd.DataFrame(raw, columns=["time","open","high","low","close","volume"])
         df["time"] = pd.to_datetime(df["time"], unit="ms")
 
-        df["ema9"]  = ta.ema(df["close"], length=9)
-        df["ema21"] = ta.ema(df["close"], length=21)
-        df["ema50"] = ta.ema(df["close"], length=50)
+        df["ema9"]  = ta.ema(df["close"], length=21)
+        df["ema21"] = ta.ema(df["close"], length=55)
+        df["ema55"] = ta.ema(df["close"], length=100)
         df["rsi"]   = ta.rsi(df["close"], length=14)
 
-        macd = ta.macd(df["close"], fast=12, slow=26, signal=9)
+        macd = ta.macd(df["close"], fast=19, slow=39, signal=9)
         if macd is not None and not macd.empty:
             mc = [c for c in macd.columns if c.startswith("MACD_")
                   and not c.startswith("MACD_h")
